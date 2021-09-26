@@ -1,0 +1,2 @@
+# Ignore potentially sensitive files
+.bash_history
