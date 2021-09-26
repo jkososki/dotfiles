@@ -19,3 +19,7 @@ fi;
 
 dotfiles checkout
 dotfiles config status.showUntrackedFiles no
+
+apt-get update && apt-get install zsh
+
+chsh -s $(which zsh)
