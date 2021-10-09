@@ -39,6 +39,7 @@ apt-get update && apt-get install -y zsh
 chsh $uname -s $(which zsh)
 echo "Set default shell to $(which zsh)"
 
-zsh
+sudo -H -u $uname sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended --keep-zshrc
 
-sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+sudo -H -u $uname git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$home_dir/.oh-my-zsh/custom}/themes/powerlevel10k
+
