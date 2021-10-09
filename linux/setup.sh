@@ -37,3 +37,4 @@ dotfiles config status.showUntrackedFiles no
 apt-get update && apt-get install -y zsh
 
 chsh $uname -s $(which zsh)
+echo "Set default shell to $(which zsh)"
