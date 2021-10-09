@@ -14,24 +14,31 @@ fi
 home_dir=$(eval echo ~$uname)
 dot_dir=$home_dir/.dotfiles
 
-sudo -u $uname git clone --bare -b linux git@github.com:jkososki/dotfiles.git $dot_dir
-
 function dotfiles {
    sudo -H -u $uname /usr/bin/git --git-dir=$dot_dir/ --work-tree=$home_dir $@
 }
 
-bkdir="$home_dir/.dotfiles-backup-$(date +%s)"
-sudo -H -u $uname mkdir -p $bkdir 
+bkdir="$home_dir/.dotfiles-backup/$(date +%s)"
 
-dotfiles checkout
-if [ $? = 0 ]; then
-  echo "Checked out dotfiles.";
-  else
-    echo "Backing up pre-existing dot files.";
-    dotfiles checkout 2>&1 | egrep "\s+\." | awk {'print $1'} | xargs -I{} sudo -H -u $uname mv $home_dir/{} $bkdir/{}
-fi;
+if [ -d "$dot_dir" ]
+then
+    dotfiles pull 
+else
+    echo $dot_dir
+    sudo -u $uname git clone --bare -b linux git@github.com:jkososki/dotfiles.git $dot_dir
 
-dotfiles checkout
+    dotfiles checkout
+    if [ $? > 0 ]; then
+      echo "Backing up pre-existing dot files.";
+
+      sudo -H -u $uname mkdir -p $bkdir 
+
+      dotfiles checkout 2>&1 | egrep "\s+\." | awk {'print $1'} | xargs -I{} sudo -H -u $uname mv $home_dir/{} $bkdir/{}
+      dotfiles checkout
+
+    fi;
+fi
+
 dotfiles config status.showUntrackedFiles no
 
 apt-get update && apt-get install -y zsh
