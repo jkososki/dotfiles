@@ -38,3 +38,7 @@ apt-get update && apt-get install -y zsh
 
 chsh $uname -s $(which zsh)
 echo "Set default shell to $(which zsh)"
+
+zsh
+
+sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
