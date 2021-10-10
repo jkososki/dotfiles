@@ -22,14 +22,22 @@ bkdir="$home_dir/.dotfiles-backup/$(date +%s)"
 
 if [ -d "$dot_dir" ]
 then
+    echo "Updating dotfiles ..."
+    echo 
+
     dotfiles pull 
+
 else
-    echo $dot_dir
+
+    echo "Installing dotfiles to: $dot_dir"
+    echo
+
     sudo -u $uname git clone --bare -b linux git@github.com:jkososki/dotfiles.git $dot_dir
 
     dotfiles checkout
     if [ $? > 0 ]; then
       echo "Backing up pre-existing dot files.";
+      echo
 
       sudo -H -u $uname mkdir -p $bkdir 
 
@@ -39,6 +47,10 @@ else
     fi;
 fi
 
+dotfiles config --local user.email "$(uname)@$(hostname)" 
+dotfiles config --local user.name "$(uname)"
+dotfiles config --local branch.linux.remote origin
+dotfiles config --local branch.linux.merge refs/heads/linux
 dotfiles config status.showUntrackedFiles no
 
 apt-get update && apt-get install -y zsh
@@ -51,7 +63,7 @@ omz="$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh
 sudo -H -u $uname sh -c $omz "" --unattended --keep-zshrc
 
 pl_dir="$home_dir/.oh-my-zsh/custom/themes/powerlevel10k" 
-if [ -d "$home_dir" ]
+if [ -d "$pl_dir" ]
 then
     echo "Updating powerlevel10k..."
     sudo -H -u $uname /usr/bin/git --work-tree=${pl_dir} pull
