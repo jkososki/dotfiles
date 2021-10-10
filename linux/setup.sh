@@ -34,8 +34,9 @@ else
 
     sudo -u $uname git clone --bare -b linux git@github.com:jkososki/dotfiles.git $dot_dir
 
-    dotfiles checkout
+    dotfiles checkout > /dev/null 2>&1 
     if [ $? > 0 ]; then
+      echo
       echo "Backing up pre-existing dot files.";
       echo
 
