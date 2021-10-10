@@ -37,12 +37,16 @@ else
     dotfiles checkout > /dev/null 2>&1 
     if [ $? > 0 ]; then
       echo
-      echo "Backing up pre-existing dot files.";
+      echo "Backing up pre-existing dot files to $bkdir";
       echo
 
       sudo -H -u $uname mkdir -p $bkdir 
 
-      dotfiles checkout 2>&1 | egrep "\s+\." | awk {'print $1'} | xargs -I{} sudo -H -u $uname mv $home_dir/{} $bkdir/{}
+      dotfiles checkout 2>&1 | \
+	    egrep "\s+\." | \
+	    awk {'print $1'} | \
+	    xargs -I{} sudo -H -u $uname mv $home_dir/{} $bkdir/{}
+
       dotfiles checkout
 
       # Set local configs to support push/pull
