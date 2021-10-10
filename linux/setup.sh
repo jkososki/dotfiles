@@ -58,14 +58,24 @@ else
     fi;
 fi
 
-
+echo
+echo "Installing zsh..."
+echo
 apt-get update && apt-get install -y zsh
 
 chsh $uname -s $(which zsh)
 echo "Set default shell to $(which zsh)"
-echo ""
+echo 
 
-sudo -H -u $uname sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended --keep-zshrc
+if [ -d "$home_dir/.oh-my-zsh" ]
+then
+    echo "Oh-My-Zsh already installed.  Delete the '.oh-my-zsh' folder to reinstall."
+    echo
+else
+    echo "Installing oh-my-zsh..."
+    echo
+    sudo -H -u $uname sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended --keep-zshrc
+fi
 
 pl_dir="$home_dir/.oh-my-zsh/custom/themes/powerlevel10k" 
 if [ -d "$pl_dir" ]
