@@ -35,16 +35,15 @@ else
     sudo -u $uname git clone --bare -b linux git@github.com:jkososki/dotfiles.git $dot_dir
 
     dotfiles checkout > /dev/null 2>&1 
-    if [ $? > 0 ]; then
+    failed=$?
+    if [ $failed -ne 0 ]; then
       echo
       echo "Backing up pre-existing dot files to $bkdir";
       echo
 
       sudo -H -u $uname mkdir -p $bkdir 
 
-      dotfiles checkout 2>&1 | \
-	    egrep "\s+\." | \
-	    awk {'print $1'} | \
+      dotfiles checkout 2>&1 | egrep "\s+\." | awk {'print $1'} | \
 	    xargs -I{} sudo -H -u $uname mv $home_dir/{} $bkdir/{}
 
       dotfiles checkout
@@ -66,8 +65,7 @@ chsh $uname -s $(which zsh)
 echo "Set default shell to $(which zsh)"
 echo ""
 
-omz="$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" 
-sudo -H -u $uname sh -c $omz "" --unattended --keep-zshrc
+sudo -H -u $uname sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended --keep-zshrc
 
 pl_dir="$home_dir/.oh-my-zsh/custom/themes/powerlevel10k" 
 if [ -d "$pl_dir" ]
@@ -75,6 +73,7 @@ then
     echo "Updating powerlevel10k..."
     sudo -H -u $uname /usr/bin/git --work-tree=${pl_dir} pull
 else
+    echo "Installing powerlevel10k..."
     pl_repo="https://github.com/romkatv/powerlevel10k.git" 
     sudo -H -u $uname git clone --depth=1 $pl_repo $pl_dir 
 fi;
