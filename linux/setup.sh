@@ -81,7 +81,7 @@ pl_dir="$home_dir/.oh-my-zsh/custom/themes/powerlevel10k"
 if [ -d "$pl_dir" ]
 then
     echo "Updating powerlevel10k..."
-    sudo -H -u $uname /usr/bin/git --work-tree=${pl_dir} pull
+    sudo -H -u $uname /usr/bin/git --work-tree=${pl_dir} --git-dir=${pl_dir}/.git pull
 else
     echo "Installing powerlevel10k..."
     pl_repo="https://github.com/romkatv/powerlevel10k.git" 
