@@ -14,7 +14,9 @@ Setup script is assuming debian-based distro.
 The setup script will also install zsh, so sudo is needed.
 
 ```bash
-curl https://raw.githubusercontent.com/jkososki/dotfiles/setup/linux/setup.sh | sudo /bin/bash
+curl https://raw.githubusercontent.com/jkososki/dotfiles/setup/linux/setup.sh -o setup.sh && \ 
+    chmod +x setup.sh && \
+    sudo ./setup.sh
 ```
 
 # MISC. TOOLS
