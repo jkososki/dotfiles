@@ -44,14 +44,16 @@ else
       dotfiles checkout 2>&1 | egrep "\s+\." | awk {'print $1'} | xargs -I{} sudo -H -u $uname mv $home_dir/{} $bkdir/{}
       dotfiles checkout
 
+      # Set local configs to support push/pull
+      dotfiles config --local user.email "$(uname)@$(hostname)" 
+      dotfiles config --local user.name "$(uname)"
+      dotfiles config --local branch.linux.remote origin
+      dotfiles config --local branch.linux.merge refs/heads/linux
+      dotfiles config status.showUntrackedFiles no
+
     fi;
 fi
 
-dotfiles config --local user.email "$(uname)@$(hostname)" 
-dotfiles config --local user.name "$(uname)"
-dotfiles config --local branch.linux.remote origin
-dotfiles config --local branch.linux.merge refs/heads/linux
-dotfiles config status.showUntrackedFiles no
 
 apt-get update && apt-get install -y zsh
 
