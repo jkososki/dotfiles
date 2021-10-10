@@ -1,14 +1,20 @@
 # Linux Dotfiles
 
-Configures dotfiles for a new host and preps the deployment of additional tools.
+Maintain linux dotfiles for syncing across workstations.
 
+## Requirements
 
-**FONT**
-https://github.com/tonsky/FiraCode/wiki
+Need to have the 'FiraCode' font installed (or whatever you'd prefer to use)
 
-**RUN SETUP**
+FiraCode NF font:  https://github.com/tonsky/FiraCode/wiki
+
+## Setup
+
+Setup script is assuming debian-based distro.
+The setup script will also install zsh, so sudo is needed.
+
 ```bash
-curl https://raw.githubusercontent.com/jkososki/dotfiles/setup/linux/setup.sh | /bin/bash
+curl https://raw.githubusercontent.com/jkososki/dotfiles/setup/linux/setup.sh | sudo /bin/bash
 ```
 
 # MISC. TOOLS
