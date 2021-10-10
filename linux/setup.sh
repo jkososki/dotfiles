@@ -45,8 +45,17 @@ apt-get update && apt-get install -y zsh
 
 chsh $uname -s $(which zsh)
 echo "Set default shell to $(which zsh)"
+echo ""
 
-sudo -H -u $uname sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended --keep-zshrc
+omz="$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" 
+sudo -H -u $uname sh -c $omz "" --unattended --keep-zshrc
 
-sudo -H -u $uname git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$home_dir/.oh-my-zsh/custom}/themes/powerlevel10k
-
+pl_dir="$home_dir/.oh-my-zsh/custom/themes/powerlevel10k" 
+if [ -d "$home_dir" ]
+then
+    echo "Updating powerlevel10k..."
+    sudo -H -u $uname /usr/bin/git --work-tree=${pl_dir} pull
+else
+    pl_repo="https://github.com/romkatv/powerlevel10k.git" 
+    sudo -H -u $uname git clone --depth=1 $pl_repo $pl_dir 
+fi;
