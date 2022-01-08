@@ -116,7 +116,7 @@ source $ZSH/oh-my-zsh.sh
 
 
 # Import custom dircolors
-if [[ -d "$HOME/.dircolors.ansi-dark" ]]
+if [[ -f "$HOME/.dircolors.ansi-dark" ]]
 then
   eval `dircolors $HOME/.dircolors.ansi-dark`
 fi
